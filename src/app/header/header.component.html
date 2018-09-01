@@ -1,3 +1,9 @@
-<mat-toolbar
-  color="primary"
->My App</mat-toolbar>
+<mat-toolbar color="primary">
+  <span><a routerLink="/">Posts Blog</a></span>
+  <span class="spacer"></span>
+  <ul>
+    <li>
+      <a routerLink="/create" mat-button routerLinkActive="mat-accent">Add Post</a>
+    </li>
+  </ul>
+</mat-toolbar>
