@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { config } from '../app.config';
 
 @Injectable()
 export class PostsService {
@@ -13,7 +14,7 @@ export class PostsService {
 
   getPosts(postsPerPage: number, currentPage: number) {
     const queryParams = `?pagesize=${postsPerPage}&page=${currentPage}`;
-    this.http.get<{message: string, posts: any, totalPosts: number}>('http://localhost:3000/api/posts' + queryParams)
+    this.http.get<{message: string, posts: any, totalPosts: number}>(config.apiUrl + '/api/posts' + queryParams)
              .pipe(map((postData) => {
               return {
                 posts: postData.posts.map(post => {
@@ -46,7 +47,7 @@ export class PostsService {
     postData.append('title', title);
     postData.append('content', content);
     postData.append('image', image, title);
-    this.http.post('http://localhost:3000/api/posts', postData)
+    this.http.post(config.apiUrl + '/api/posts', postData)
               .subscribe(
                 (responseData: any) => {
                   this.router.navigate(['/']);
@@ -66,7 +67,7 @@ export class PostsService {
     } else {
       postData = {id: id, title: title, content: content, imagePath: image};
     }
-    this.http.put('http://localhost:3000/api/posts/' + id, postData)
+    this.http.put(config.apiUrl + '/api/posts/' + id, postData)
               .subscribe(
                 (response: {id: string, title: string, content: string, imagePath: string}) => {
                  this.router.navigate(['/']);
@@ -75,10 +76,10 @@ export class PostsService {
   }
 
   deletePost(postId: string) {
-    return this.http.delete('http://localhost:3000/api/posts/' +  postId);
+    return this.http.delete(config.apiUrl + '/api/posts/' +  postId);
   }
 
   getPost(id: string) {
-    return this.http.get<{_id: string, title: string, content: string, imagePath: string}>('http://localhost:3000/api/posts/' + id);
+    return this.http.get<{_id: string, title: string, content: string, imagePath: string}>(config.apiUrl + '/api/posts/' + id);
   }
 }
