@@ -45,6 +45,11 @@ router.post('/', checkAuth, multer({storage: storage}).single('image'), (req, re
         id: result._id,
       }
     });
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Creating a post failed!!!'
+    });
   });
 });
 
@@ -68,6 +73,11 @@ router.put('/:id', checkAuth, multer({storage: storage}).single('image'), (req, 
     } else {
       res.status(401).json({message: 'Not Authorized to update the post'});
     }
+  })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Could not update the post!!!'
+    });
   });
 });
 
@@ -92,6 +102,11 @@ router.get('/', (req, res, next) => {
           totalPosts: count
         });
       })
+      .catch(error => {
+        res.status(500).json({
+          message: 'Fetching posts failed!!!'
+        });
+      });
 });
 
 router.get('/:id', (req, res, next) => {
@@ -100,10 +115,15 @@ router.get('/:id', (req, res, next) => {
       if(post) {
         res.status(200).json(post);
       } else {
-        res.status(404).json({message: 'Post Not Found'});
+        res.status(404).json({message: 'Post Not Found!!!'});
       }
     }
   )
+  .catch(error => {
+    res.status(500).json({
+      message: 'Fetching a post failed!!!'
+    });
+  });
 });
 
 router.delete('/:id', checkAuth, (req, res, next) => {
@@ -114,6 +134,11 @@ router.delete('/:id', checkAuth, (req, res, next) => {
       res.status(401).json({message: 'Not Authorized to delete the post'});
     }
   })
+  .catch(error => {
+    res.status(500).json({
+      message: 'Deleting the post failed!!!'
+    });
+  });
 });
 
 module.exports = router;

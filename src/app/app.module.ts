@@ -10,6 +10,7 @@ import { MatInputModule,
         MatPaginatorModule } from '@angular/material';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
 import { PostsComponent } from './posts/posts.component';
@@ -21,6 +22,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { ErrorInterceptor } from './error-interceptor';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     ReactiveFormsModule,
     FormsModule,
     MatInputModule,
@@ -47,7 +50,9 @@ import { AuthInterceptor } from './auth/auth-interceptor';
     MatProgressBarModule,
     MatPaginatorModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}, PostsService],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+              {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
+              PostsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

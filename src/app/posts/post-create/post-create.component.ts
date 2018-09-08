@@ -1,23 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { PostsService } from '../posts.service';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Post } from '../post.model';
 import { mimeType } from './mime-type.validator';
+import { Subscription } from 'rxjs';
+import { AuthService } from '../../auth/auth.service';
 
 @Component({
   selector: 'app-post-create',
   templateUrl: './post-create.component.html',
   styleUrls: ['./post-create.component.css']
 })
-export class PostCreateComponent implements OnInit {
+export class PostCreateComponent implements OnInit, OnDestroy {
   private mode = 'create';
+  private authStatusSub: Subscription;
   postId: string;
   post: Post;
   isLoading = false;
   form: FormGroup;
   imagePreview: string;
-  constructor(private route: ActivatedRoute, private postsService: PostsService) { }
+  constructor(private route: ActivatedRoute, private postsService: PostsService, private authService: AuthService) { }
 
   ngOnInit() {
     this.form = new FormGroup({
@@ -40,7 +43,7 @@ export class PostCreateComponent implements OnInit {
                                             imagePath: postData.imagePath,
                                             creator: postData.creator
                                           };
-                              console.log('post data' + JSON.stringify(this.post));
+                              this.imagePreview = postData.imagePath;
                               this.form.setValue({'title': this.post.title, 'content': this.post.content, 'image': this.post.imagePath});
                             });
         } else {
@@ -49,6 +52,10 @@ export class PostCreateComponent implements OnInit {
         }
       }
     );
+    // part of error handling. Whenever an error occured, hide the spinner
+    this.authStatusSub = this.authService.getAuthStatusListener().subscribe((authStatus) => {
+      this.isLoading = false;
+    });
   }
   onSavePost() {
     if (this.form.invalid) {
@@ -74,4 +81,7 @@ export class PostCreateComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
+  ngOnDestroy() {
+    this.authStatusSub.unsubscribe();
+  }
 }

@@ -36,7 +36,9 @@ export class AuthService {
     const userData: User = {firstName: user.firstName, lastName: user.lastName, email: user.email, password: user.password};
     this.http.post(`${config.apiUrl}/api/user/signup`, userData)
               .subscribe(response => {
-                console.log(response);
+                this.router.navigate(['/']);
+              }, error => {
+                this.authStatusListener.next(false);
               });
   }
   login(email: string, password: string) {
@@ -59,6 +61,8 @@ export class AuthService {
                   this.authStatusListener.next(true);
                   this.router.navigate(['/']);
                 }
+              }, error => {
+                this.authStatusListener.next(false);
               });
   }
   logout() {
