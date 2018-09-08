@@ -9,7 +9,7 @@ import { MatInputModule,
         MatProgressBarModule,
         MatPaginatorModule } from '@angular/material';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { PostsComponent } from './posts/posts.component';
@@ -20,6 +20,7 @@ import { PostsService } from './posts/posts.service';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
+import { AuthInterceptor } from './auth/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { SignupComponent } from './auth/signup/signup.component';
     MatProgressBarModule,
     MatPaginatorModule
   ],
-  providers: [PostsService],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}, PostsService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

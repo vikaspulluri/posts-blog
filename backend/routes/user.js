@@ -9,6 +9,8 @@ router.post('/signup', (req, res, next) => {
   bcrypt.hash(req.body.password, 10)
         .then(hash => {
           const user = new User({
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
             email: req.body.email,
             password: hash
           });
@@ -16,7 +18,9 @@ router.post('/signup', (req, res, next) => {
               .then(result => {
                 res.status(201).json({
                   message: 'User created!!!',
-                  result: result
+                  firstName: result.firstName,
+                  lastName: result.lastName,
+                  email: result.email
                 });
               })
               .catch(err => {
@@ -46,11 +50,12 @@ router.post('/login', (req, res, next) => {
             message: 'Wrong password'
           });
         }
-        const token = jwt.sign({email: fetchedUser.email, id: fetchedUser._id}, 'kaushal_army', {expiresIn: '2h'});
+        const token = jwt.sign({email: fetchedUser.email, id: fetchedUser._id}, 'kaushal_army', {expiresIn: '1h'});
         res.status(200).json({
           error: false,
-          message: 'Success',
-          token: token
+          username: result.firstName + ' ' + result.lastName,
+          token: token,
+          expiresIn: 3600
         });
       })
       .catch(err => {

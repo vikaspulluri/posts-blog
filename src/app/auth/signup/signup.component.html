@@ -1,6 +1,18 @@
 <mat-card>
   <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
   <form *ngIf="!isLoading" (submit)="onSignup(signupForm)" #signupForm="ngForm">
+    <div class="name-fields">
+        <mat-form-field>
+          <input type="text" placeholder="First Name" matInput name="firstname" ngModel required #firstNameInput="ngModel">
+          <mat-error *ngIf="firstNameInput.invalid">Please enter a valid First Name</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input type="text" placeholder="Last Name" matInput name="lastname" ngModel required #lastNameInput="ngModel">
+          <mat-error *ngIf="lastNameInput.invalid">Please enter a valid Last Name</mat-error>
+        </mat-form-field>
+    </div>
+
     <mat-form-field>
       <input type="email" placeholder="E-Mail" matInput name="email" ngModel required email #emailInput="ngModel">
       <mat-error *ngIf="emailInput.invalid">Please enter a valid e-mail</mat-error>

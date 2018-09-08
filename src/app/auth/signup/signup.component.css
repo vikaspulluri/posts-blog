@@ -6,3 +6,11 @@ mat-form-field {
 mat-progress-bar{
   margin: 0 auto;
 }
+.name-fields{
+  display: flex;
+  justify-content: space-between;
+}
+.name-fields mat-form-field{
+  width: 45%;
+}
+
