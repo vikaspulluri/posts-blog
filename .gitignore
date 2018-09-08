@@ -5,6 +5,9 @@
 /tmp
 /out-tsc
 
+# environment specific
+nodemon.json
+
 # dependencies
 /node_modules
 

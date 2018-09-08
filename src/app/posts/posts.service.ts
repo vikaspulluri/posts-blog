@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { config } from '../app.config';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class PostsService {
   constructor(private http: HttpClient, private router: Router) {}
   private posts: Post[] = [];

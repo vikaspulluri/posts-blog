@@ -1,3 +1,5 @@
+import { environment } from '../environments/environment';
+
 export const config = {
-  apiUrl: 'http://localhost:3000'
+  apiUrl: environment.apiUrl
 }
