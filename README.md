@@ -1,5 +1,9 @@
 # MeanBlog
 
+## Note
+
+This code will not work without the proper secret key and mongodb password which are kept in env
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.1.
 
 ## Development server
