@@ -21,9 +21,9 @@ export class PostCreateComponent implements OnInit {
 
   ngOnInit() {
     this.form = new FormGroup({
-      'title': new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
-      'content': new FormControl(null, {validators: [Validators.required]}),
-      'image': new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
+      title: new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
+      content: new FormControl(null, {validators: [Validators.required]}),
+      image: new FormControl(null, {validators: [Validators.required], asyncValidators: [mimeType]})
     });
     this.route.paramMap.subscribe(
       (paramsMap: ParamMap) => {
@@ -37,9 +37,11 @@ export class PostCreateComponent implements OnInit {
                               this.post = {id: postData._id,
                                             title: postData.title,
                                             content: postData.content,
-                                            imagePath: postData.imagePath
+                                            imagePath: postData.imagePath,
+                                            creator: postData.creator
                                           };
-                              this.form.setValue({'title': this.post.title, 'content': this.post.content, image: this.post.imagePath});
+                              console.log('post data' + JSON.stringify(this.post));
+                              this.form.setValue({'title': this.post.title, 'content': this.post.content, 'image': this.post.imagePath});
                             });
         } else {
           this.mode = 'create';
